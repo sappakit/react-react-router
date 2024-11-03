@@ -1,6 +1,40 @@
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 function CreateProductForm() {
+  const [productData, setProductData] = useState({
+    name: "",
+    image: "",
+    price: "",
+    description: "",
+  });
+
+  const navigate = useNavigate(); // สำหรับนำทางกลับไปที่ Home Page
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProductData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // ป้องกันการรีเฟรชหน้า
+    try {
+      // ส่งข้อมูลไปยังเซิร์ฟเวอร์
+      await axios.post("http://localhost:4001/products", productData);
+      // ถ้าสำเร็จ ให้เปลี่ยนเส้นทางไปที่หน้า Home Page
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to create product:", error);
+      // สามารถเพิ่มการแจ้งเตือนหรือการจัดการข้อผิดพลาดได้ที่นี่
+    }
+  };
+
   return (
-    <form className="product-form">
+    <form className="product-form" onSubmit={handleSubmit}>
       <h1>Create Product Form</h1>
       <div className="input-container">
         <label>
@@ -10,7 +44,8 @@ function CreateProductForm() {
             name="name"
             type="text"
             placeholder="Enter name here"
-            onChange={() => {}}
+            value={productData.name}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -22,7 +57,8 @@ function CreateProductForm() {
             name="image"
             type="text"
             placeholder="Enter image url here"
-            onChange={() => {}}
+            value={productData.image}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -34,7 +70,8 @@ function CreateProductForm() {
             name="price"
             type="number"
             placeholder="Enter price here"
-            onChange={() => {}}
+            value={productData.price}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -46,7 +83,8 @@ function CreateProductForm() {
             name="description"
             type="text"
             placeholder="Enter description here"
-            onChange={() => {}}
+            value={productData.description}
+            onChange={handleChange}
             rows={4}
             cols={30}
           />
