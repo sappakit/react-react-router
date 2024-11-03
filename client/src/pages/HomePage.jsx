@@ -41,14 +41,13 @@ function HomePage() {
     navigate("/product/create"); // พาไปที่หน้า Create Product Page
   };
 
+  // ฟังก์ชันเพื่อไปยังหน้ารายละเอียดผลิตภัณฑ์
   const handleViewProductPage = (id) => {
     navigate(`/product/view/${id}`); // พาไปที่หน้า View Product Page
-    <button
-      className="edit-button"
-      onClick={() => handleViewProductPage(product.id)}
-    >
-      Edit
-    </button>;
+  };
+
+  const handleEditProductPage = (id) => {
+    navigate(`/product/edit/${id}`); // พาไปที่หน้า Edit Product Page
   };
 
   return (
@@ -76,11 +75,16 @@ function HomePage() {
                 <div className="product-actions">
                   <button
                     className="view-button"
-                    onClick={() => handleViewProductPage(product.id)}
+                    onClick={() => handleViewProductPage(product.id)} // ใช้ฟังก์ชันนี้เพื่อดูรายละเอียดผลิตภัณฑ์
                   >
                     View
                   </button>
-                  <button className="edit-button">Edit</button>
+                  <button
+                    className="edit-button"
+                    onClick={() => handleEditProductPage(product.id)} // เรียกใช้งานฟังก์ชันนี้เมื่อคลิก Edit
+                  >
+                    Edit
+                  </button>
                 </div>
               </div>
               <button
